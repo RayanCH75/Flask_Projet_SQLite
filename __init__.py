@@ -63,13 +63,12 @@ def formulaire_client():
     return render_template('formulaire.html')  # afficher le formulaire*
 
 @app.route('/fiche_nom/')
-def recherche(post_id):
+def ReadBDD_2():
     conn = sqlite3.connect('database.db')
     cursor = conn.cursor()
-    cursor.execute('SELECT * FROM clients WHERE id = ?', (post_id,))
+    cursor.execute('SELECT * FROM clients;')
     data = cursor.fetchall()
     conn.close()
-    # Rendre le template HTML et transmettre les données
     return render_template('search_data.html', data=data)
 
 
