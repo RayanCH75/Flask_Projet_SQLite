@@ -62,7 +62,7 @@ def ReadBDD():
 def formulaire_client():
     return render_template('formulaire.html')  # afficher le formulaire*
 
-@app.route('/fiche_nom')
+@app.route('/fiche_nom/')
 def recherche(post_id):
     conn = sqlite3.connect('database.db')
     cursor = conn.cursor()
