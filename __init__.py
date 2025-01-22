@@ -62,14 +62,24 @@ def ReadBDD():
 def formulaire_client():
     return render_template('formulaire.html')  # afficher le formulaire*
 
-@app.route('/fiche_nom/')
+@app.route('/fiche_nom/', methods=['GET', 'POST'])
 def ReadBDD_2():
+    nom = request.args.get('nom', '')  # Récupérer le nom passé en paramètre GET ou POST
     conn = sqlite3.connect('database.db')
     cursor = conn.cursor()
-    cursor.execute('SELECT * FROM clients;')
+
+    if nom:
+        # Recherche spécifique par nom
+        cursor.execute('SELECT * FROM clients WHERE nom = ?', (nom,))
+    else:
+        # Si aucun nom fourni, afficher tous les clients
+        cursor.execute('SELECT * FROM clients;')
+
     data = cursor.fetchall()
     conn.close()
-    return render_template('search_data.html', data=data)
+
+    # Renvoyer les données au template HTML
+    return render_template('search_data.html', data=data, nom=nom)
 
 
 @app.route('/enregistrer_client', methods=['POST'])
