@@ -64,6 +64,17 @@ def formulaire_client():
 
 @app.route('/fiche_nom/', methods=['GET', 'POST'])
 def ReadBDD_2():
+    # Vérification des identifiants dans l'en-tête HTTP
+    auth = request.authorization
+    if not auth or auth.username != USERNAME or auth.password != PASSWORD:
+        # Si non autorisé, demander l'authentification
+        return Response(
+            "Accès refusé : Veuillez fournir un login et un mot de passe.", 
+            401,
+            {'WWW-Authenticate': 'Basic realm="Login Required"'}
+        )
+
+    # Si l'utilisateur est authentifié, continuer
     nom = request.args.get('nom', '')  # Récupérer le nom passé en paramètre GET ou POST
     conn = sqlite3.connect('database.db')
     cursor = conn.cursor()
@@ -80,6 +91,7 @@ def ReadBDD_2():
 
     # Renvoyer les données au template HTML
     return render_template('search_data.html', data=data, nom=nom)
+
 
 
 @app.route('/enregistrer_client', methods=['POST'])
