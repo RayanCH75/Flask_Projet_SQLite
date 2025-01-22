@@ -62,6 +62,9 @@ def ReadBDD():
 def formulaire_client():
     return render_template('formulaire.html')  # afficher le formulaire*
 
+USERNAME = "user"
+PASSWORD = "12345"
+
 @app.route('/fiche_nom/', methods=['GET', 'POST'])
 def ReadBDD_2():
     # Vérification des identifiants dans l'en-tête HTTP
